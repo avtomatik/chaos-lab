@@ -8,32 +8,27 @@ Created on Fri Mar 11 22:17:06 2022
 
 
 import numpy as np
-from plot import visualize
-from read import read
-from transform import preprocess
+
+from dataset import make_dataset
+from plots import make_plot
 
 
-def main(
-    path_src: str = '../data',
-    file_name: str = 'dataset_usa_0025_p_r.txt'
-) -> None:
+def main() -> None:
     """
     Draws cobweb plot or Verhulst diagram for Given Dataset
-
-    Parameters
-    ----------
-    path_src : str, optional
-        DESCRIPTION. The default is '../data'.
-    file_name : str, optional
-        DESCRIPTION. The default is 'dataset_usa_0025_p_r.txt'.
 
     Returns
     -------
     None
+        DESCRIPTION.
+
     """
-    df = read(path_src, file_name).pipe(preprocess)
-    x_lin = np.linspace(df.iloc[:, [-1]].min(), df.iloc[:, [-1]].max(), 100)
-    df.pipe(visualize, x_lin)
+    df = make_dataset()
+
+    last_column = df.iloc[:, [-1]]
+    x_lin = np.linspace(last_column.min(), last_column.max(), 100)
+
+    df.pipe(make_plot, x_lin)
 
 
 if __name__ == '__main__':
